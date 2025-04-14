@@ -55,6 +55,7 @@ void Input()
 void Tick()
 {
     // 10(0~9) * 10(0~9) 박스에서 플레이어는 8(1~8) * 8(1~8)만 이동 가능
+    // 플레이어가 (1,1)일 때는 1 > 1이 성립하지 않으므로 이동 불가능.  
     if ((InputKey == 0x48 || toupper(InputKey) == 'W') && PlayerData->Y > WALL_TOP + 1)
     {
         PlayerData->Y--; //위 방향키 입력 또는 W 입력이면서 Y축이 1보다 클 때 위로 이동 가능

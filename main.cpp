@@ -1,103 +1,315 @@
+ï»¿//#include <iostream>
+//#include <Windows.h>
+//#include <conio.h>
+//
+//using namespace std;
+//
+//void GotoXY(int X, int Y)
+//{
+//    COORD Cur;
+//    Cur.X = X;
+//    Cur.Y = Y;
+//    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
+//}
+//
+//void DrawWall(int left, int top, int width, int height)
+//{
+//    for (int y = top; y < top + height; ++y)
+//    {
+//        for (int x = left; x < left + width; ++x)
+//        {
+//            if (y == top || y == top + height - 1 || x == left || x == left + width - 1)
+//            {
+//                GotoXY(x, y);
+//                cout << "*";
+//            }
+//        }
+//    }
+//}
+//
+//struct PlayerInfo
+//{
+//    int X;
+//    int Y;
+//    string Shape;
+//};
+//
+//const int WALL_LEFT = 0;
+//const int WALL_TOP = 0;
+//const int WALL_WIDTH = 10;
+//const int WALL_HEIGHT = 10;
+//
+//PlayerInfo* PlayerData = nullptr;
+//int InputKey = 0;
+//
+//bool IsRunning = true;
+//
+//void Input() // ê²Œìž„ ìž…ë ¥ ì²˜ë¦¬
+//{
+//    InputKey = _getch();
+//    if (InputKey == 27) // ESC
+//        IsRunning = false;
+//}
+//
+//
+//void Tick() // ê²Œìž„ ë¡œì§ ì²˜ë¦¬(ì´ë™ ë²”ìœ„ ì œí•œ)
+//{
+//    // 10(0~9) * 10(0~9) ë°•ìŠ¤ì—ì„œ í”Œë ˆì´ì–´ëŠ” 8(1~8) * 8(1~8)ë§Œ ì´ë™ ê°€ëŠ¥
+//    // í”Œë ˆì´ì–´ê°€ (1,1)ì¼ ë•ŒëŠ” 1 > 1ì´ ì„±ë¦½í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ì´ë™ ë¶ˆê°€ëŠ¥.  
+//    if ((InputKey == 0x48 || toupper(InputKey) == 'W') && PlayerData->Y > WALL_TOP + 1)
+//    {
+//        PlayerData->Y--; //ìœ„ ë°©í–¥í‚¤ ìž…ë ¥ ë˜ëŠ” W ìž…ë ¥ì´ë©´ì„œ Yì¶•ì´ 1ë³´ë‹¤ í´ ë•Œ ìœ„ë¡œ ì´ë™ ê°€ëŠ¥
+//    }
+//    else if ((InputKey == 0x4B || toupper(InputKey) == 'A') && PlayerData->X > WALL_LEFT + 1)
+//    {
+//        PlayerData->X--; //ì™¼ìª½ ë°©í–¥í‚¤ ìž…ë ¥ ë˜ëŠ” A ìž…ë ¥ì´ë©´ì„œ Xì¶•ì´ 1ë³´ë‹¤ í´ ë•Œ ìœ„ë¡œ ì´ë™ ê°€ëŠ¥
+//    }
+//    else if ((InputKey == 0x4D || toupper(InputKey) == 'D') && PlayerData->X < WALL_LEFT + WALL_WIDTH - 2)
+//    {
+//        PlayerData->X++; //ì˜¤ë¥¸ìª½ ë°©í–¥í‚¤ ìž…ë ¥ ë˜ëŠ” A ìž…ë ¥ì´ë©´ì„œ Xì¶•ì´ 8ë³´ë‹¤ ìž‘ì„ ë•Œ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™ ê°€ëŠ¥
+//    }
+//    else if ((InputKey == 0x50 || toupper(InputKey) == 'S') && PlayerData->Y < WALL_TOP + WALL_HEIGHT - 2)
+//    {
+//        PlayerData->Y++; //ì•„ëž˜ ë°©í–¥í‚¤ ìž…ë ¥ ë˜ëŠ” S ìž…ë ¥ì´ë©´ì„œ Yì¶•ì´ 8ë³´ë‹¤ ìž‘ì„ ë•Œ ì•„ëž˜ë¡œ ì´ë™ ê°€ëŠ¥
+//    }
+//}
+//
+//void Render() // í™”ë©´ ì¶œë ¥(í”Œë ˆì´ì–´ì™€ ë²½ í‘œì‹œ)
+//{
+//    system("cls");
+//    DrawWall(WALL_LEFT, WALL_TOP, WALL_WIDTH, WALL_HEIGHT);
+//    GotoXY(PlayerData->X, PlayerData->Y);
+//    cout << PlayerData->Shape;
+//}
+//
+//int main()
+//{
+//    PlayerData = new PlayerInfo;
+//    PlayerData->X = 1;
+//    PlayerData->Y = 1;
+//    PlayerData->Shape = "P";
+//
+//    while (IsRunning)
+//    {
+//        Input();
+//        Tick();
+//        Render();
+//    }
+//
+//    delete PlayerData;
+//    PlayerData = nullptr;
+//
+//    return 0;
+//}
+
+
 #include <iostream>
-#include <Windows.h>
 #include <conio.h>
+#include <Windows.h>
 
 using namespace std;
 
-void GotoXY(int X, int Y)
+struct ActorInfo
 {
-    COORD Cur;
-    Cur.X = X;
-    Cur.Y = Y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
-}
-
-void DrawWall(int left, int top, int width, int height)
-{
-    for (int y = top; y < top + height; ++y)
-    {
-        for (int x = left; x < left + width; ++x)
-        {
-            if (y == top || y == top + height - 1 || x == left || x == left + width - 1)
-            {
-                GotoXY(x, y);
-                cout << "*";
-            }
-        }
-    }
-}
-
-struct PlayerInfo
-{
-    int X;
-    int Y;
-    string Shape;
+	int X;
+	int Y;
+	char Shape;
 };
 
-const int WALL_LEFT = 0;
-const int WALL_TOP = 0;
-const int WALL_WIDTH = 10;
-const int WALL_HEIGHT = 10;
 
-PlayerInfo* PlayerData = nullptr;
-int InputKey = 0;
+// ì „ì—­ë³€ìˆ˜
+int MapHeight = 10;
+int KeyCode = 0;
+ActorInfo* Player = nullptr;
+ActorInfo* Monster = nullptr;
+ActorInfo* Goal = nullptr;
 
+string* Map;
 bool IsRunning = true;
+
+
+
+void Initialize();
+void Input();
+void Tick();
+void Render();
+void GotoXY(int x, int y);
+void Terminate();
+bool Predict(int PredictX, int PredictY);
+
+int main()
+{
+	Initialize();
+
+	while (IsRunning)  //frame, game loop
+	{
+		Input();
+		Tick();
+		Render();
+	}
+
+	Terminate();
+
+	return 0;
+}
+
+void Initialize()
+{
+	//Load
+	Map = new string[MapHeight];
+	//FILE
+	Map[0] = "***************";
+	Map[1] = "*        ******";
+	Map[2] = "*        *** **";
+	Map[3] = "*        **  **";
+	Map[4] = "****     **  **";
+	Map[5] = "*        *  ***";
+	Map[6] = "*          ****";
+	Map[7] = "*   *    ******";
+	Map[8] = "*   *    ******";
+	Map[9] = "***************";
+
+	Player = new ActorInfo();
+	Player->X = 1;
+	Player->Y = 1;
+	Player->Shape = 'P';
+
+	Monster = new ActorInfo();
+	Monster->X = 8;
+	Monster->Y = 8;
+	Monster->Shape = 'M';
+
+	Goal = new ActorInfo();
+	Goal->X = 5;
+	Goal->Y = 5;
+	Goal->Shape = 'G';
+
+	srand((unsigned int)(time(nullptr)));
+
+}
 
 void Input()
 {
-    InputKey = _getch();
-    if (InputKey == 27) // ESC
-        IsRunning = false;
+	KeyCode = _getch(); //Device
 }
-
 
 void Tick()
 {
-    // 10(0~9) * 10(0~9) ¹Ú½º¿¡¼­ ÇÃ·¹ÀÌ¾î´Â 8(1~8) * 8(1~8)¸¸ ÀÌµ¿ °¡´É
-    // ÇÃ·¹ÀÌ¾î°¡ (1,1)ÀÏ ¶§´Â 1 > 1ÀÌ ¼º¸³ÇÏÁö ¾ÊÀ¸¹Ç·Î ÀÌµ¿ ºÒ°¡´É.  
-    if ((InputKey == 0x48 || toupper(InputKey) == 'W') && PlayerData->Y > WALL_TOP + 1)
-    {
-        PlayerData->Y--; //À§ ¹æÇâÅ° ÀÔ·Â ¶Ç´Â W ÀÔ·ÂÀÌ¸é¼­ YÃàÀÌ 1º¸´Ù Å¬ ¶§ À§·Î ÀÌµ¿ °¡´É
-    }
-    else if ((InputKey == 0x4B || toupper(InputKey) == 'A') && PlayerData->X > WALL_LEFT + 1)
-    {
-        PlayerData->X--; //¿ÞÂÊ ¹æÇâÅ° ÀÔ·Â ¶Ç´Â A ÀÔ·ÂÀÌ¸é¼­ XÃàÀÌ 1º¸´Ù Å¬ ¶§ À§·Î ÀÌµ¿ °¡´É
-    }
-    else if ((InputKey == 0x4D || toupper(InputKey) == 'D') && PlayerData->X < WALL_LEFT + WALL_WIDTH - 2)
-    {
-        PlayerData->X++; //¿À¸¥ÂÊ ¹æÇâÅ° ÀÔ·Â ¶Ç´Â A ÀÔ·ÂÀÌ¸é¼­ XÃàÀÌ 8º¸´Ù ÀÛÀ» ¶§ ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ °¡´É
-    }
-    else if ((InputKey == 0x50 || toupper(InputKey) == 'S') && PlayerData->Y < WALL_TOP + WALL_HEIGHT - 2)
-    {
-        PlayerData->Y++; //¾Æ·¡ ¹æÇâÅ° ÀÔ·Â ¶Ç´Â S ÀÔ·ÂÀÌ¸é¼­ YÃàÀÌ 8º¸´Ù ÀÛÀ» ¶§ ¾Æ·¡·Î ÀÌµ¿ °¡´É
-    }
+	//Player
+	if (KeyCode == 'w' && Predict(Player->X, Player->Y - 1))
+	{
+		Player->Y--;
+	}
+	if (KeyCode == 's' && Predict(Player->X, Player->Y + 1))
+	{
+		Player->Y++;
+	}
+	if (KeyCode == 'a' && Predict(Player->X - 1, Player->Y))
+	{
+		Player->X--;
+	}
+	if (KeyCode == 'd' && Predict(Player->X + 1, Player->Y))
+	{
+		Player->X++;
+	}
+
+	if (KeyCode == 'q')
+	{
+		IsRunning = false;
+	}
+
+	//AI(Random, HP, Attack, BT, FSM, Tick )
+	//Monster
+	int Direction = rand() % 4;
+	if (Direction == 0)
+	{
+		if (Predict(Monster->X, Monster->Y - 1))
+		{
+			Monster->Y--;
+		}
+	}
+	if (Direction == 1)
+	{
+		if (Predict(Monster->X, Monster->Y + 1))
+		{
+			Monster->Y++;
+		}
+	}
+	if (Direction == 2)
+	{
+		if (Predict(Monster->X - 1, Monster->Y))
+		{
+			Monster->X--;
+		}
+	}
+	if (Direction == 3)
+	{
+		if (Predict(Monster->X + 1, Monster->Y))
+		{
+			Monster->X++;
+		}
+	}
+
+	if (Player->X == Goal->X && Player->Y == Goal->Y)
+	{
+		IsRunning = false;
+	}
 }
 
 void Render()
 {
-    system("cls");
-    DrawWall(WALL_LEFT, WALL_TOP, WALL_WIDTH, WALL_HEIGHT);
-    GotoXY(PlayerData->X, PlayerData->Y);
-    cout << PlayerData->Shape;
+	//system("cls");
+	for (int Y = 0; Y < MapHeight; ++Y)
+	{
+		for (int X = 0; X < Map[Y].length(); ++X)
+		{
+			GotoXY(X, Y);
+			cout << Map[Y][X];
+		}
+	}
+
+	void GoalIn();
+
+	//Actor, Pawn
+	GotoXY(Player->X, Player->Y);
+	cout << Player->Shape;
+
+	GotoXY(Monster->X, Monster->Y);
+	cout << Monster->Shape;
+
+	GotoXY(Goal->X, Goal->Y);
+	cout << Goal->Shape;
 }
 
-int main()
+void GotoXY(int X, int Y)
 {
-    PlayerData = new PlayerInfo;
-    PlayerData->X = 1;
-    PlayerData->Y = 1;
-    PlayerData->Shape = "P";
+	COORD Pos;
+	Pos.X = X;
+	Pos.Y = Y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
 
-    while (IsRunning)
-    {
-        Input();
-        Tick();
-        Render();
-    }
+void Terminate()
+{
+	delete Player;
+	Player = nullptr;
 
-    delete PlayerData;
-    PlayerData = nullptr;
+	delete Monster;
+	Monster = nullptr;
 
-    return 0;
+	delete Goal;
+	Goal = nullptr;
+
+	delete[] Map;
+	Map = nullptr;
+}
+
+bool Predict(int PredictX, int PredictY)
+{
+	if (Map[PredictY][PredictX] == ' ')
+	{
+		return true;
+	}
+
+	return false;
 }
